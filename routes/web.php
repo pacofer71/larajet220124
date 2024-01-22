@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $posts=Post::with('category', 'user')->where('estado', 'PUBLICADO')->paginate(5);
+    return view('welcome', compact('posts'));
+})->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -25,4 +28,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    //Rutas con autenticacion
+    Route::resource('categories', CategoryController::class)->except('show');
 });
