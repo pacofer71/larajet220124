@@ -52,12 +52,39 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "{{session('mensaje')}}",
+                title: "{{ session('mensaje') }}",
                 showConfirmButton: false,
                 timer: 2000
             });
         </script>
     @endif
+    <!-- Eventos Livewire -->
+    <script>
+        Livewire.on('mensaje', (txt) => {
+            Swal.fire({
+                icon: "success",
+                title: txt,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        })
+
+        Livewire.on('confirmacionBorrar', (postId) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.dispatchTo('show-posts', 'borrarOk', postId);
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>
