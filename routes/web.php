@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactanosController;
 use App\Livewire\ShowPosts;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,6 @@ Route::middleware([
 
     Route::get('posts', ShowPosts::class)->name('posts.index');
 });
+
+Route::get('contactanos', [ContactanosController::class, 'pintarFormulario'])->name('contactanos.index');
+Route::post('contactanos', [ContactanosController::class, 'procesarFormulario'])->name('contactanos.procesar');

@@ -26,6 +26,9 @@
                             <i class="fas fa-gears mr-2"></i>Posts
                         </x-nav-link>
                     @endauth
+                    <x-nav-link href="{{ route('contactanos.index') }}" :active="request()->routeIs('contactanos.*')">
+                        <i class="fa-solid fa-envelope mr-1"></i>Contáctanos
+                    </x-nav-link>
                 </div>
             </div>
             @auth

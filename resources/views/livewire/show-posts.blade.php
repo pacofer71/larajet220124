@@ -34,7 +34,8 @@
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="w-4 p-4">
-                            <button><i class="fas fa-info text-xl hover:text-2xl"></i></button>
+                            <button wire:click="showPost({{ $item->id }})"><i
+                                    class="fas fa-info text-xl hover:text-2xl"></i></button>
                         </td>
                         <th scope="row"
                             class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -145,22 +146,60 @@
     @endisset
     <!-- Fin Modal EDITAR------------------------------------------------------------------>
     <!-- MODAL PARA SHOW ------------------------------------------------------------------>
-    <x-dialog-modal wire:model="abrirModalUpdate">
+    @isset($post)
+    <x-dialog-modal wire:model="openShow">
         <x-slot name="title">
             INFORMACION DEL POST
         </x-slot>
         <x-slot name="content">
+            <div
+                class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                <img class="w-full rounded-t-lg bg-cover bg-center" src="{{Storage::url($post->imagen)}}" alt="" />
+
+                <div class="p-5">
+
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        {{$post->titulo}}
+                    </h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        {{$post->contenido}}
+                    </p>
+                    <div class="mb-3">
+                        <span class="font-bold">Categoría: </span>{{$post->category->nombre}}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Email: </span>
+                        <span class="italic">{{$post->user->email}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Estado: </span>
+                        <span @class([
+                            'text-red-600 line-through'=>$post->estado=="BORRADOR",
+                            'text-green-600'=>$post->estado=="PUBLICADO",
+                        ])>{{$post->estado}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Creado: </span>{{$post->created_at->format('d/m/Y H:i:s')}}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Actualizado: </span>{{$post->updated_at->format('d/m/Y H:i:s')}}
+                    </div>
+                    
+                </div>
+            </div>
 
         </x-slot>
         <x-slot name="footer">
             <div class="flex flex-row-reverse">
-                <button wire:click=""
+                <button wire:click="cancelarShow"
                     class="mr-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     <i class="fas fa-xmark"></i> CANCELAR
                 </button>
             </div>
         </x-slot>
     </x-dialog-modal>
+    @endisset
     <!-- FIN MODAL ------------------------------------------------------------------------->
 
 </x-propios.principal>

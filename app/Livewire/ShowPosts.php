@@ -27,6 +27,10 @@ class ShowPosts extends Component
 
     public PostUpdateForm $form;
 
+    //Variables para showPost
+    public bool $openShow=false;
+    public Post $post;
+
    
     #[On('postCreado')]
     public function render()
@@ -84,6 +88,14 @@ class ShowPosts extends Component
     public function limpiarCerrarUpdate(){
         $this->form->cancelarBueno();
         $this->abrirModalUpdate=false;
+    }
+    // Esto para mostra un post
+    public function showPost(Post $post){
+        $this->post=$post;
+        $this->openShow=true;
+    }
+    public function cancelarShow(){
+        $this->reset(['openShow', 'post']);
     }
    
 }
