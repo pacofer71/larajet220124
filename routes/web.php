@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactanosController;
+use App\Http\Controllers\Socialite\GithubController;
 use App\Livewire\ShowPosts;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,17 @@ Route::middleware([
     Route::resource('categories', CategoryController::class)->except('show');
 
     Route::get('posts', ShowPosts::class)->name('posts.index');
+    
 });
 
 Route::get('contactanos', [ContactanosController::class, 'pintarFormulario'])->name('contactanos.index');
 Route::post('contactanos', [ContactanosController::class, 'procesarFormulario'])->name('contactanos.procesar');
+
+//---------------------------Rutas para socilaite login 
+
+Route::get('/auth/github/redirect', [GithubController::class, 'redirect'])->name('github.redirect');
+Route::get('/auth/github/callback', [GithubController::class, 'callback'])->name('github.callback');
+/*
+Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+*/
